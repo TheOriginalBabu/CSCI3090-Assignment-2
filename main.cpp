@@ -52,12 +52,29 @@ struct Light {
 	GLfloat spotDirection[4];
 	GLfloat spotCutoff;
 	GLfloat spotExp;
-	GLfloat padding[2];	// pad structure to a multiple of 16 bytes
-} light = {
-	{ 500.0, 500.0, 800.0, 1.0},
-	{ 1.0, 1.0, 1.0, 1.0},
-	{ 500.0, 500.0, 750.0, 1.0},
-	0.85, 200.0, 0.0, 0.0
+	GLint state;		// 1 = on, 0 = off
+	GLfloat padding;	// pad structure to 64 bytes (multiple of 16)
+} 
+
+lights[3] = {
+	{
+		{ 500.0f, 500.0f, 800.0f, 1.0f },
+		{ 1.0f, 0.0f, 0.0f, 1.0f }, //red
+		{ 500.0f, 500.0f, 750.0f, 1.0f },
+		0.85f, 200.0f, 1, 0.0f
+	},
+	{
+		{ -500.0f, 500.0f, 800.0f, 1.0f },
+		{ 0.0f, 1.0f, 0.0f, 1.0f }, //green
+		{ -500.0f, 500.0f, 750.0f, 1.0f },
+		0.85f, 200.0f, 1, 0.0f
+	},
+	{
+		{ 0.0f, -500.0f, 800.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f, 1.0f }, //blue
+		{ 0.0f, -500.0f, 750.0f, 1.0f },
+		0.85f, 200.0f, 1, 0.0f
+	}
 };
 
 GLuint lightBuffer;
@@ -189,7 +206,7 @@ void init() {
 	 */
 	glGenBuffers(1, &lightBuffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(light), &light, GL_STATIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(lights), lights, GL_DYNAMIC_DRAW); //switch to dynamic draw cause the lights are gonna change
 
 	glGenBuffers(1, &materialBuffer); //load material buffer
 	glBindBuffer(GL_UNIFORM_BUFFER, materialBuffer);
@@ -294,6 +311,24 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 		theta += 0.1;
 	if (key == GLFW_KEY_S && action == GLFW_PRESS)
 		theta -= 0.1;
+
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		lights[0].state = !lights[0].state;
+		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lights), lights);
+	}
+
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+		lights[1].state = !lights[1].state;
+		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lights), lights);
+	}
+
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
+		lights[2].state = !lights[2].state;
+		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lights), lights);
+	}
 
 	eyex = (float)(r*sin(theta)*cos(phi));
 	eyey = (float)(r*sin(theta)*sin(phi));

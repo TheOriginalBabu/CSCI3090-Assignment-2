@@ -1,8 +1,7 @@
 ﻿  main.cpp
-C:\CSCI 3090\Assignment2\main.cpp(60,2): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-C:\CSCI 3090\Assignment2\main.cpp(119,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\CSCI 3090\Assignment2\main.cpp(156,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\CSCI 3090\Assignment2\main.cpp(164,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\CSCI 3090\Assignment2\main.cpp(201,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\CSCI 3090\Assignment2\main.cpp(202,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\CSCI 3090\Assignment2\main.cpp(136,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\CSCI 3090\Assignment2\main.cpp(173,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\CSCI 3090\Assignment2\main.cpp(181,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\CSCI 3090\Assignment2\main.cpp(218,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\CSCI 3090\Assignment2\main.cpp(219,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   Example8a.vcxproj -> C:\CSCI 3090\Assignment2\x64\Debug\Example8a.exe
