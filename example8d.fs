@@ -15,6 +15,7 @@ struct Light {
 	float spotCutoff;
 	float spotExp;
 	int state;
+	int isSpot;
 };
 
 layout(std140, binding=1) uniform Lights {
@@ -39,10 +40,14 @@ void main() {
 
 		vec3 L = normalize(vec3(lights[i].Lposition) - position.xyz);
 		vec3 H = normalize(L + e);
-		float spotCos = dot(L, vec3(normalize(lights[i].spotDirection)));
-		float atten = (spotCos < lights[i].spotCutoff)
-			? 0.0
-			: pow(spotCos, lights[i].spotExp);
+				float atten = 1.0;
+
+		if (lights[i].isSpot != 0) { // for spotlights, calculate attenuation based on spot direction and cutoff
+			float spotCos = dot(L, vec3(normalize(lights[i].spotDirection)));
+			atten = (spotCos < lights[i].spotCutoff)
+				? 0.0
+				: pow(spotCos, lights[i].spotExp);
+		}
 
 		float diffuse = dot(N, L) * atten;
 		float specular = 0.0;

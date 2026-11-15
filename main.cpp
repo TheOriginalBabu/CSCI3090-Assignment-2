@@ -53,7 +53,7 @@ struct Light {
 	GLfloat spotCutoff;
 	GLfloat spotExp;
 	GLint state;		// 1 = on, 0 = off
-	GLfloat padding;	// pad structure to 64 bytes (multiple of 16)
+	GLint isSpot;		// 1 = spotlight, 0 = point light
 } 
 
 lights[3] = {
@@ -61,19 +61,19 @@ lights[3] = {
 		{ 500.0f, 500.0f, 800.0f, 1.0f },
 		{ 1.0f, 0.0f, 0.0f, 1.0f }, //red
 		{ 500.0f, 500.0f, 750.0f, 1.0f },
-		0.85f, 200.0f, 1, 0.0f
+		0.85f, 200.0f, 1, 1
 	},
 	{
 		{ -500.0f, 500.0f, 800.0f, 1.0f },
 		{ 0.0f, 1.0f, 0.0f, 1.0f }, //green
 		{ -500.0f, 500.0f, 750.0f, 1.0f },
-		0.85f, 200.0f, 1, 0.0f
+		0.85f, 200.0f, 1, 1
 	},
 	{
 		{ 0.0f, -500.0f, 800.0f, 1.0f },
 		{ 0.0f, 0.0f, 1.0f, 1.0f }, //blue
 		{ 0.0f, -500.0f, 750.0f, 1.0f },
-		0.85f, 200.0f, 1, 0.0f
+		0.85f, 200.0f, 1, 1
 	}
 };
 
@@ -326,6 +326,33 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
 		lights[2].state = !lights[2].state;
+		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lights), lights);
+	}
+
+	if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+		static bool altColour = false;
+		altColour = !altColour;
+
+		if (altColour) {
+			material.colour[0] = 0.0f;
+			material.colour[1] = 1.0f;
+			material.colour[2] = 1.0f;
+			material.colour[3] = 1.0f;
+		}
+		else {
+			material.colour[0] = 1.0f;
+			material.colour[1] = 0.0f;
+			material.colour[2] = 1.0f;
+			material.colour[3] = 1.0f;
+		}
+
+		glBindBuffer(GL_UNIFORM_BUFFER, materialBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(material), &material);
+	}
+
+	if (key == GLFW_KEY_L && action == GLFW_PRESS) {
+		lights[0].isSpot = !lights[0].isSpot;
 		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(lights), lights);
 	}
