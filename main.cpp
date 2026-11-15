@@ -394,7 +394,8 @@ int main(int argc, char **argv) {
 
 	// create the window used by our application
 
-	window = glfwCreateWindow(512, 512, "Example Eight A", NULL, NULL);
+	glfwWindowHint(GLFW_SAMPLES, 8); //MSAA
+	window = glfwCreateWindow(1280, 1024, "Example Eight A", NULL, NULL);
 
 	if (!window)
 	{
@@ -427,11 +428,12 @@ int main(int argc, char **argv) {
 
 	init();
 
+	glEnable(GL_MULTISAMPLE); // MSAA
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0,1.0,1.0,1.0);
-	glViewport(0, 0, 512, 512);
+	glViewport(0, 0, 1280, 1024);
 
-	projection = glm::perspective(0.7f, 1.0f, 1.0f, 800.0f);
+	projection = glm::perspective(0.7f, 1280.0f/1024.0f, 1.0f, 800.0f); // modified aspect ration
 
 	glfwSwapInterval(1);
 
