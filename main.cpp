@@ -62,6 +62,18 @@ struct Light {
 
 GLuint lightBuffer;
 
+struct Material {
+	GLfloat colour[4];
+	GLfloat n;
+	GLfloat padding[3];	// pad structure to a multiple of 16 bytes
+} material = {
+	{ 1.0f, 0.0f, 1.0f, 1.0f },
+	900.0f,
+	{ 0.0f, 0.0f, 0.0f }
+};
+
+GLuint materialBuffer;
+
 /*
  *  The init procedure creates the OpenGL data structures
  *  that contain the triangle geometry, compiles our
@@ -179,6 +191,10 @@ void init() {
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(light), &light, GL_STATIC_DRAW);
 
+	glGenBuffers(1, &materialBuffer); //load material buffer
+	glBindBuffer(GL_UNIFORM_BUFFER, materialBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(material), &material, GL_DYNAMIC_DRAW);
+
 	/*
 	 *  compile and build the shader program
 	 */
@@ -256,6 +272,7 @@ void display() {
 
 	glBindVertexArray(objVAO);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 1, lightBuffer);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 2, materialBuffer);
 	glDrawElements(GL_TRIANGLES, 3*triangles, GL_UNSIGNED_INT, NULL);
 
 }

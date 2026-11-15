@@ -16,15 +16,18 @@ layout(std140, binding=1) uniform Light {
 	float spotExp;
 };
 
+layout(std140, binding=2) uniform Material {
+	vec4 colour;
+	float n;
+};
+
 void main() {
 	vec3 N;
-	vec4 colour = vec4(1.0, 0.0, 0.0, 1.0);
 	float spotCos;
 	float atten;
 	vec3 H;
 	float diffuse;
 	float specular;
-	float n = 100.0;
 	vec3 L;
 	vec3 e;
 
